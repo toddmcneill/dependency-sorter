@@ -1,7 +1,7 @@
 {
-  "name": "dependency-sorter",
+  "name": "package-sorter",
   "version": "1.0.0",
-  "description": "A package dependency sorter",
+  "description": "A package sorter, respecting dependencies",
   "main": "index.js",
   "author": "Todd McNeill",
   "license": "MIT",

@@ -1,4 +1,4 @@
-# Dependency Sorter
+# Package Sorter
 
 ## Requirements
 See REQUIREMENTS.md

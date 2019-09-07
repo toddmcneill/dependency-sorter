@@ -1,8 +1,8 @@
-const { sortDependencies } = require('../src/sortDependencies.js')
+const { sortPackages } = require('../src/sortPackages.js')
 const { assert } = require('chai')
 
-describe('sortDependencies', () => {
-  context('sortDependencies', () => {
+describe('sortPackages', () => {
+  context('sortPackages', () => {
     it('sorts 1 package with no dependency')
     it('sorts 2 packages with a single dependency')
     it('detects a circular dependency of 2 packages')
