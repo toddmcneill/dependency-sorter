@@ -85,7 +85,7 @@ function isOutputValid (input, output) {
 
     // Verify the package is included in the output.
     if (!outputArray.includes(packageName)) {
-      return false
+      throw new Error(`${packageName} is not present in the output`)
     }
 
     // Skip the dependency check if no dependency is specified.
@@ -95,12 +95,12 @@ function isOutputValid (input, output) {
 
     // Verify the dependency is included in the list.
     if (!outputArray.includes(dependency)) {
-      return false
+      throw new Error(`${dependency} is not present in the output`)
     }
 
     // Verify the dependency is before the package in the list.
     if (outputArray.indexOf(dependency) > outputArray.indexOf(packageName)) {
-      return false
+      throw new Error(`${packageName} depends on ${dependency}, but is before it in the output`)
     }
   }
 
