@@ -19,8 +19,8 @@ function sortPackages (packageList) {
     }
 
     // Add the package and all it's dependencies in the correct order to the list.
-    const orderedDependencyList = getOrderedDependencyList(packageDetails, packageDetailsList)
-    orderedPackageNames.push(...orderedDependencyList)
+    const dependencyChain = getDependencyChain(packageDetails, packageDetailsList)
+    orderedPackageNames.push(...dependencyChain)
   }
 
   // Create a string from the ordered package names and return it.
@@ -35,7 +35,7 @@ usedDependencies: an array a string package names that have already been used in
 Returns: an array containing all dependencies down the chain needed to include the package found in packageDetails, as well as the package itself
 Throws: if a circular dependency is detected
  */
-function getOrderedDependencyList(packageName, dependency, packageDetailsList, usedDependencies = []) {
+function getDependencyChain(packageName, dependency, packageDetailsList, usedDependencies = []) {
   // If there is no dependency, return an array with just the package name itself.
   if (!dependency) {
     return [ packageName ]
@@ -51,7 +51,7 @@ function getOrderedDependencyList(packageName, dependency, packageDetailsList, u
 
   // Add the dependency to the list and go deeper.
   const dependencyDetails = packageDetailsList.find(packageDetails => packageDetails.packageName === dependency)
-  const dependencyChain = module.exports.getOrderedDependencyList(dependencyDetails.packageName, dependencyDetails.dependency, packageDetailsList, [ ...usedDependencies, packageName ])
+  const dependencyChain = module.exports.getDependencyChain(dependencyDetails.packageName, dependencyDetails.dependency, packageDetailsList, [ ...usedDependencies, packageName ])
 
   // Add the package to the list after its dependencies.
   return [ ...dependencyChain, packageName ]
@@ -70,6 +70,6 @@ function sortPackagesMultipleDependencies (packageList) {
 
 module.exports = {
   sortPackages,
-  getOrderedDependencyList,
+  getDependencyChain,
   sortPackagesMultipleDependencies
 }

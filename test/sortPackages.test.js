@@ -1,5 +1,5 @@
 const sortPackagesFunctions = require('../src/sortPackages.js')
-const { sortPackages, getOrderedDependencyList, sortPackagesMultipleDependencies } = sortPackagesFunctions
+const { sortPackages, getDependencyChain, sortPackagesMultipleDependencies } = sortPackagesFunctions
 const { assert } = require('chai')
 const sinon = require('sinon')
 
@@ -85,32 +85,32 @@ describe('sortPackages', () => {
     })
   })
 
-  context('getOrderedDependencyList', () => {
+  context('getDependencyChain', () => {
     it('returns the package if there is no dependency', () => {
-      const output = getOrderedDependencyList('a', null, [])
+      const output = getDependencyChain('a', null, [])
       const expected = [ 'a' ]
       assert.deepEqual(output, expected)
     })
     
     it('throws an error if the package is already in the dependency chain', () => {
-      const troubleFunction = () => getOrderedDependencyList('a', 'b', [], ['b'])
+      const troubleFunction = () => getDependencyChain('a', 'b', [], ['b'])
       assert.throws(troubleFunction, 'Circular dependency found')
     })
     
     it('includes an error message identifying the problem', () => {
-      const troubleFunction = () => getOrderedDependencyList('a', 'c', [], ['b', 'c', 'd', 'e'])
+      const troubleFunction = () => getDependencyChain('a', 'c', [], ['b', 'c', 'd', 'e'])
       assert.throws(troubleFunction, 'Circular dependency found: c > e > d > c')
     })
     
     it('calls itself to follow the dependency chain', () => {
-      sandbox.spy(sortPackagesFunctions, 'getOrderedDependencyList')
+      sandbox.spy(sortPackagesFunctions, 'getDependencyChain')
       const packageDetailsList = [
         { packageName: 'b', dependency: 'c' },
         { packageName: 'c', dependency: 'd' },
         { packageName: 'd', dependency: null }
       ]
-      sortPackagesFunctions.getOrderedDependencyList('a', 'b', packageDetailsList)
-      assert.equal(sortPackagesFunctions.getOrderedDependencyList.callCount, 4)
+      sortPackagesFunctions.getDependencyChain('a', 'b', packageDetailsList)
+      assert.equal(sortPackagesFunctions.getDependencyChain.callCount, 4)
     })
 
     it('returns an ordered dependency chain', () => {
@@ -119,7 +119,7 @@ describe('sortPackages', () => {
         { packageName: 'c', dependency: 'd' },
         { packageName: 'd', dependency: null }
       ]
-      const output = getOrderedDependencyList('a', 'b', packageDetailsList)
+      const output = getDependencyChain('a', 'b', packageDetailsList)
       const expected = ['d', 'c', 'b', 'a']
       assert.deepEqual(output, expected)
     })
