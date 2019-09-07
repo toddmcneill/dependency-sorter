@@ -19,7 +19,7 @@ function sortPackages (packageList) {
     }
 
     // Add the package and all it's dependencies in the correct order to the list.
-    const dependencyChain = getDependencyChain(packageDetails, packageDetailsList)
+    const dependencyChain = getDependencyChain(packageDetails.packageName, packageDetails.dependency, packageDetailsList)
     orderedPackageNames.push(...dependencyChain)
   }
 
@@ -49,8 +49,15 @@ function getDependencyChain(packageName, dependency, packageDetailsList, usedDep
     throw new Error(`Circular dependency found: ${messageDetails}`)
   }
 
-  // Add the dependency to the list and go deeper.
+  // Find details about the dependency.
   const dependencyDetails = packageDetailsList.find(packageDetails => packageDetails.packageName === dependency)
+  if (!dependencyDetails) {
+    // If the dependency details are not found, that means they were already added to the list.
+    // Assumption: user input will never include a dependency with a broken reference to a package that is not also in the input.
+    return [ packageName ]
+  }
+
+  // Add the dependency to the list and go deeper.
   const dependencyChain = module.exports.getDependencyChain(dependencyDetails.packageName, dependencyDetails.dependency, packageDetailsList, [ ...usedDependencies, packageName ])
 
   // Add the package to the list after its dependencies.
