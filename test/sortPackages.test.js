@@ -1,4 +1,4 @@
-const { sortPackages } = require('../src/sortPackages.js')
+const { sortPackages, getOrderedDependencyList, sortPackagesMultipleDependencies } = require('../src/sortPackages.js')
 const { assert } = require('chai')
 
 describe('sortPackages', () => {
@@ -72,6 +72,28 @@ describe('sortPackages', () => {
         "Ice: Leetmeme"
       ]
       assert.throws(() => sortPackages(input))
+    })
+  })
+
+  context('getOrderedDependencyList', () => {
+    it('returns the package if there is no dependency')
+    it('throws an error if the package is already in the dependency chain')
+    it('calls itself to follow the dependency chain')
+  })
+
+  context.skip('sortPackagesMultipleDependencies', () => {
+    it('sorts 3 packages with 1 multiple dependency', () => {
+      const input = [ "a: b, c", "b: ", "c: b" ]
+      const output = sortPackages(input)
+      const expected = "b, c, a"
+      assert.equal(output, expected)
+    })
+
+    it('sorts 5 packages with each depending on all the ones following it', () => {
+      const input = [ "a: b, c, d, e", "b: c, d, e", "c: d, e", "d: e", "e: " ]
+      const output = sortPackages(input)
+      const expected = "e, d, c, b, a"
+      assert.equal(output, expected)
     })
   })
 })
