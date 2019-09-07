@@ -6,7 +6,7 @@ const sinon = require('sinon')
 describe('sortPackages', () => {
   let sandbox
   before(() => {
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
   })
   afterEach(() => {
     sandbox.restore()
@@ -125,17 +125,17 @@ describe('sortPackages', () => {
     })
   })
 
-  context.skip('sortPackagesMultipleDependencies', () => {
-    it('sorts 3 packages with 1 multiple dependency', () => {
+  context.only('sortPackagesMultipleDependencies', () => {
+    it.only('sorts 3 packages with 1 multiple dependency', () => {
       const input = [ 'a: b, c', 'b: ', 'c: b' ]
-      const output = sortPackages(input)
+      const output = sortPackagesMultipleDependencies(input)
       const expected = 'b, c, a'
       assert.equal(output, expected)
     })
 
     it('sorts 5 packages with each depending on all the ones following it', () => {
       const input = [ 'a: b, c, d, e', 'b: c, d, e', 'c: d, e', 'd: e', 'e: ' ]
-      const output = sortPackages(input)
+      const output = sortPackagesMultipleDependencies(input)
       const expected = 'e, d, c, b, a'
       assert.equal(output, expected)
     })
