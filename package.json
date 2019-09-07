@@ -1,0 +1,16 @@
+{
+  "name": "dependency-sorter",
+  "version": "1.0.0",
+  "description": "A package dependency sorter",
+  "main": "index.js",
+  "author": "Todd McNeill",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
+  }
+}
