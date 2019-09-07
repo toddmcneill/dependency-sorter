@@ -124,22 +124,6 @@ describe('sortPackages', () => {
       assert.deepEqual(output, expected)
     })
   })
-
-  context.only('sortPackagesMultipleDependencies', () => {
-    it.only('sorts 3 packages with 1 multiple dependency', () => {
-      const input = [ 'a: b, c', 'b: ', 'c: b' ]
-      const output = sortPackagesMultipleDependencies(input)
-      const expected = 'b, c, a'
-      assert.equal(output, expected)
-    })
-
-    it('sorts 5 packages with each depending on all the ones following it', () => {
-      const input = [ 'a: b, c, d, e', 'b: c, d, e', 'c: d, e', 'd: e', 'e: ' ]
-      const output = sortPackagesMultipleDependencies(input)
-      const expected = 'e, d, c, b, a'
-      assert.equal(output, expected)
-    })
-  })
 })
 
 // Since more complex inputs can often yield a number of valid outputs, a static comparison is not sufficient, and this helper function is needed.
