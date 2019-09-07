@@ -6,7 +6,7 @@ Throws: when a circular dependency is detected.
 function sortDependencies (packageList) {
   // TODO: implement this function.
 
-  return 'thing'
+  return ''
 }
 
 module.exports = {
