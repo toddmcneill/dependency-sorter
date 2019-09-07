@@ -45,7 +45,7 @@ function getDependencyChain(packageName, dependency, packageDetailsList, usedDep
   const duplicateIndex = usedDependencies.indexOf(dependency)
   if (duplicateIndex !== -1) {
     // Display a helpful message to identify the problem.
-    const messageDetails = [ ...usedDependencies, dependency].slice(duplicateIndex).reverse().join(' > ')
+    const messageDetails = [ ...usedDependencies, packageName, dependency].slice(duplicateIndex).join(' > ')
     throw new Error(`Circular dependency found: ${messageDetails}`)
   }
 

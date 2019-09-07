@@ -99,7 +99,7 @@ describe('sortPackages', () => {
     
     it('includes an error message identifying the problem', () => {
       const troubleFunction = () => getDependencyChain('a', 'c', [], ['b', 'c', 'd', 'e'])
-      assert.throws(troubleFunction, 'Circular dependency found: c > e > d > c')
+      assert.throws(troubleFunction, 'Circular dependency found: c > d > e > a > c')
     })
     
     it('calls itself to follow the dependency chain', () => {
